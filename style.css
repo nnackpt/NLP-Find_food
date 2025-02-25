@@ -1,0 +1,295 @@
+/* เปลี่ยนฟอนต์ */
+body {
+    font-family: 'Kanit', sans-serif; /* ใช้ฟอนต์ Google Fonts */
+    background-color: #147de7; /* สีพื้นหลังแบบอ่อน */
+    color: #333; /* สีข้อความ */
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50; /* สีหัวข้อ */
+    margin-bottom: 30px;
+}
+
+.container {
+    max-width: 800px; /* จำกัดความกว้างของคอนเทนเนอร์ */
+    margin: auto;
+    padding: 20px;
+    background: #ffffff; /* สีพื้นหลังคอนเทนเนอร์ */
+    border-radius: 10px; /* มุมโค้ง */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เงา */
+}
+
+form {
+    margin-bottom: 30px;
+}
+
+label {
+    font-weight: bold;
+    color: #2c3e50; /* สีของ label */
+}
+
+input[type="number"], select {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    transition: border-color 0.3s ease; /* เพิ่มการเปลี่ยนสีขอบเมื่อคลิก */
+}
+
+input[type="number"]:focus, select:focus {
+    border-color: #007bff; /* สีขอบเมื่อได้รับโฟกัส */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* เงาเมื่อได้รับโฟกัส */
+}
+
+button.btn-primary {
+    width: 100%; /* ทำให้ปุ่มเต็มความกว้าง */
+    background-color: #007bff; /* สีปุ่มหลัก */
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* เพิ่มเอฟเฟกต์ hover */
+}
+
+button.btn-primary:hover {
+    background-color: #0056b3; /* สีปุ่มเมื่อ hover */
+    transform: scale(1.05); /* เพิ่มขนาดเล็กน้อยเมื่อ hover */
+}
+
+/* ปรับแต่ง #result เพื่อให้ตารางอยู่ตรงกลางและมีขนาดเท่ากันกับ container */
+#result {
+    text-align: center; /* จัดข้อความใน result เป็นกลาง */
+    margin-top: 30px; /* เพิ่มระยะห่างจากฟอร์ม */
+}
+
+#result table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#result th,
+#result td {
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    word-wrap: break-word;
+}
+
+#result thead {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#result tbody tr {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#result tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#result tbody tr:hover {
+    background-color: #e9ecef;
+    transform: scale(1.01);
+    transition: transform 0.3s ease;
+}
+
+/* กำหนดความกว้างของคอลัมน์ */
+#result th:first-child, #result td:first-child {
+    width: 20%; /* ชื่อร้าน */
+}
+
+#result th:nth-child(2), #result td:nth-child(2) {
+    width: 15%; /* ประเภทอาหาร */
+}
+
+#result th:nth-child(3), #result td:nth-child(3) {
+    width: 10%; /* ราคา */
+}
+
+#result th:nth-child(4), #result td:nth-child(4) {
+    width: 15%; /* หมวดหมู่ */
+}
+
+#result th:nth-child(5), #result td:nth-child(5) {
+    width: 15%; /* โทรศัพท์ */
+}
+
+#result th:nth-child(6), #result td:nth-child(6) {
+    width: 15%; /* Email */
+}
+
+#result th:last-child, #result td:last-child {
+    width: 10%; /* URL */
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.pagination-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.pagination-btn.active {
+    background-color: #0056b3;
+    font-weight: bold;
+}
+
+.pagination-btn[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    #result table {
+        font-size: 14px;
+    }
+    #result th, #result td {
+        padding: 8px;
+    }
+    button.btn-primary {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+/* ปรับแต่งลิงก์ URL */
+#result a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+#result a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* ไอคอน Bootstrap */
+.bi {
+    font-size: 18px;
+}
+
+/* ซ่อน #result เริ่มต้น */
+#result {
+    display: none; /* ซ่อน container เริ่มต้น */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* เพิ่มเอฟเฟกต์ fade-in */
+}
+
+/* แสดง #result เมื่อมีคลาส fade-in */
+#result.fade-in {
+    display: block; /* แสดง container */
+    opacity: 1;
+}
+
+#resetButton {
+    margin-left: 10px; /* เพิ่มระยะห่างจากปุ่มค้นหา */
+    background-color: #ff0000;
+}
+
+#resetButton:hover {
+    background-color: #b51414; /* สีเมื่อ hover */
+}
+
+/* จัดกลุ่มปุ่ม */
+.button-group {
+    display: flex;
+    justify-content: space-between; /* กระจายปุ่มออกจากกัน */
+    align-items: center; /* จัดแนวปุ่มให้อยู่ในระดับเดียวกัน */
+    margin-top: 20px; /* เพิ่มระยะห่างจากฟอร์ม */
+}
+
+/* ปุ่ม "ค้นหา" */
+.button-group .btn-primary {
+    width: auto; /* ปรับขนาดปุ่มให้พอดี */
+    padding: 10px 20px; /* เพิ่ม padding เพื่อให้ปุ่มดูสวยงาม */
+}
+
+/* ปุ่ม "รีเซ็ต" */
+.button-group .btn-secondary {
+    margin-left: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+
+/* สไตล์สำหรับ container ฟอร์ม */
+.form-container {
+    max-width: 500px; /* จำกัดความกว้างให้เล็กลง */
+    margin: auto; /* จัดกึ่งกลางหน้าจอ */
+    padding: 20px;
+    background: #ffffff; /* สีพื้นหลัง */
+    border-radius: 10px; /* มุมโค้ง */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เงา */
+    margin-bottom: 30px; /* เพิ่มระยะห่างจาก container ผลลัพธ์ */
+    margin-top: 50px;
+}
+
+.form-container h2 {
+    text-align: center; /* จัดกึ่งกลางข้อความหัวข้อ */
+    color: #2c3e50; /* สีหัวข้อ */
+    margin-bottom: 20px; /* เพิ่มระยะห่างจากฟอร์ม */
+}
+
+/* สไตล์สำหรับฟอร์ม */
+.form-container form {
+    display: flex;
+    flex-direction: column; /* จัดฟอร์มในแนวตั้ง */
+    gap: 15px; /* เพิ่มระยะห่างระหว่างแต่ละฟิลด์ */
+}
+
+.form-container label {
+    font-weight: bold;
+    color: #2c3e50; /* สีของ label */
+}
+
+.form-container input[type="number"],
+.form-container select {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px; /* ลดขนาด padding เพื่อให้ฟอร์มดูเล็กลง */
+    transition: border-color 0.3s ease;
+}
+
+.form-container input[type="number"]:focus,
+.form-container select:focus {
+    border-color: #007bff; /* สีขอบเมื่อได้รับโฟกัส */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* เงาเมื่อได้รับโฟกัส */
+}
+
+.form-container .button-group {
+    display: flex;
+    justify-content: space-between; /* กระจายปุ่มออกจากกัน */
+    align-items: center; /* จัดแนวปุ่มให้อยู่ในระดับเดียวกัน */
+}
+
+.form-container .btn-primary,
+.form-container .btn-secondary {
+    width: 48%; /* กำหนดขนาดปุ่มให้พอดี */
+    padding: 10px;
+    font-size: 14px; /* ลดขนาดฟอนต์ */
+}
