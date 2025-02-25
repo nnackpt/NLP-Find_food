@@ -11,13 +11,14 @@ h1 {
     margin-bottom: 30px;
 }
 
-.container {
+.outputcontainer {
     max-width: 800px; /* จำกัดความกว้างของคอนเทนเนอร์ */
     margin: auto;
     padding: 20px;
     background: #ffffff; /* สีพื้นหลังคอนเทนเนอร์ */
     border-radius: 10px; /* มุมโค้ง */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เงา */
+    display: none;
 }
 
 form {

@@ -4,39 +4,43 @@ const itemsPerPage = 10; // จำนวนรายการต่อหน้�
 document.getElementById("foodForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // รับค่าจากฟอร์ม
     const maxPriceInput = document.getElementById("maxPrice");
     const maxPrice = parseFloat(maxPriceInput.value);
     const foodType = document.getElementById("foodType").value;
 
-    // เพิ่มการตรวจสอบ
     if (!maxPrice || maxPrice <= 0) {
         alert("กรุณาระบุราคาสูงสุดที่มากกว่า 0");
         maxPriceInput.focus();
         return;
     }
 
-    // อ่านข้อมูลจากไฟล์ CSV
-    const response = await fetch('menuData.csv'); // โหลดไฟล์ CSV
-    const csvText = await response.text(); // อ่านเนื้อหาไฟล์ CSV
-    const menuData = Papa.parse(csvText, { header: true }).data; // แปลง CSV เป็น JSON
+    const response = await fetch('menuData.csv');
+    const csvText = await response.text();
+    const menuData = Papa.parse(csvText, { header: true }).data;
 
-    // รับค่าจากฟอร์ม
-    // const maxPrice = parseFloat(document.getElementById("maxPrice").value) || Infinity;
-    // const foodType = document.getElementById("foodType").value;
-
-    // กรองข้อมูลร้านอาหาร
     const filteredMenu = menuData.filter(item => {
-        const price = item.price_level === "ต่ำกว่า 100 บาท" ? 100 : Infinity; // แปลงราคาเป็นตัวเลข
+        const price = item.price_level === "ต่ำกว่า 100 บาท" ? 100 : Infinity;
         return price <= maxPrice && (foodType === "all" || item.category_international === foodType);
     });
 
-    // เก็บข้อมูลที่กรองไว้ในตัวแปร global เพื่อใช้ในการเปลี่ยนหน้า
     window.filteredMenu = filteredMenu;
-
-    // แสดงผลหน้าแรก
     showPage(filteredMenu, currentPage);
+
+    // แสดง outputcontainer เมื่อมีผลลัพธ์
+    document.querySelector(".outputcontainer").style.display = "block";
 });
+
+document.getElementById("resetButton").addEventListener("click", function () {
+    document.getElementById("maxPrice").value = "";
+    document.getElementById("result").innerHTML = "";
+    currentPage = 1;
+
+    document.getElementById("result").classList.remove("fade-in");
+
+    // ซ่อน outputcontainer เมื่อรีเซ็ต
+    document.querySelector(".outputcontainer").style.display = "none";
+});
+
 
 // ฟังก์ชันแสดงผลตามหน้าที่เลือก
 function showPage(data, page) {
