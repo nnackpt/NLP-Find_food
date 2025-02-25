@@ -4,43 +4,55 @@ const itemsPerPage = 10; // จำนวนรายการต่อหน้�
 document.getElementById("foodForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const maxPriceInput = document.getElementById("maxPrice");
-    const maxPrice = parseFloat(maxPriceInput.value);
-    const foodType = document.getElementById("foodType").value;
+    // แสดง Loader
+    const loader = document.getElementById("loader");
+    loader.style.display = "flex";
 
-    if (!maxPrice || maxPrice <= 0) {
-        alert("กรุณาระบุราคาสูงสุดที่มากกว่า 0");
-        maxPriceInput.focus();
-        return;
+    try {
+        const maxPriceInput = document.getElementById("maxPrice");
+        const maxPrice = parseFloat(maxPriceInput.value);
+        const foodType = document.getElementById("foodType").value;
+
+        if (!maxPrice || maxPrice <= 0) {
+            alert("กรุณาระบุราคาสูงสุดที่มากกว่า 0");
+            maxPriceInput.focus();
+            return;
+        }
+
+        const response = await fetch('menuData.csv');
+        const csvText = await response.text();
+        const menuData = Papa.parse(csvText, { header: true }).data;
+
+        const filteredMenu = menuData.filter(item => {
+            const price = item.price_level === "ต่ำกว่า 100 บาท" ? 100 : Infinity;
+            return price <= maxPrice && (foodType === "all" || item.category_international === foodType);
+        });
+
+        window.filteredMenu = filteredMenu;
+        showPage(filteredMenu, currentPage);
+
+        // แสดง outputcontainer เมื่อมีผลลัพธ์
+        document.querySelector(".outputcontainer").style.display = "block";
+    } catch (error) {
+        console.error("เกิดข้อผิดพลาดในการโหลดข้อมูล:", error);
+        alert("ไม่สามารถโหลดข้อมูลได้ กรุณาลองใหม่อีกครั้ง");
+    } finally {
+        // ซ่อน Loader หลังจากเสร็จสิ้น
+        loader.style.display = "none";
     }
-
-    const response = await fetch('menuData.csv');
-    const csvText = await response.text();
-    const menuData = Papa.parse(csvText, { header: true }).data;
-
-    const filteredMenu = menuData.filter(item => {
-        const price = item.price_level === "ต่ำกว่า 100 บาท" ? 100 : Infinity;
-        return price <= maxPrice && (foodType === "all" || item.category_international === foodType);
-    });
-
-    window.filteredMenu = filteredMenu;
-    showPage(filteredMenu, currentPage);
-
-    // แสดง outputcontainer เมื่อมีผลลัพธ์
-    document.querySelector(".outputcontainer").style.display = "block";
 });
 
+// เพิ่มการซ่อน Loader เมื่อรีเซ็ต
 document.getElementById("resetButton").addEventListener("click", function () {
     document.getElementById("maxPrice").value = "";
     document.getElementById("result").innerHTML = "";
     currentPage = 1;
-
     document.getElementById("result").classList.remove("fade-in");
 
-    // ซ่อน outputcontainer เมื่อรีเซ็ต
+    // ซ่อน outputcontainer และ Loader
     document.querySelector(".outputcontainer").style.display = "none";
+    document.getElementById("loader").style.display = "none";
 });
-
 
 // ฟังก์ชันแสดงผลตามหน้าที่เลือก
 function showPage(data, page) {
@@ -128,7 +140,7 @@ function handlePaginationClick(e) {
 document.getElementById("resetButton").addEventListener("click", function () {
     // ล้างค่าในฟอร์ม
     document.getElementById("maxPrice").value = ""; // ล้างช่องราคา
-    //document.getElementById("foodType").value = "ทั้งหมด"; // รีเซ็ต dropdown เป็น "ทั้งหมด"
+    document.getElementById("foodType").value = "all"; // รีเซ็ต dropdown เป็น "ทั้งหมด"
 
     // ล้างผลลัพธ์
     document.getElementById("result").innerHTML = "";
